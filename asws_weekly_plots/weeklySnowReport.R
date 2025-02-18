@@ -7,9 +7,11 @@
 #updated: Mar 14, 2022
 #update: Nov 20, 2023 to add Crocker Creek error catch
 #update: Nov 19, 2024 to remove Crocker Creek error catch as it's no longer needed
+#Update: Feb 18, 2025 moved code to github and fixed some things up
 ###############################################################################
 
-setwd("C:/AQUARIUS/WeeklySnowReports")
+#set working directory if needed
+#setwd("C:/AQUARIUS/WeeklySnowReports")
 
 ## Load libraries
 library(ggplot2)
@@ -18,7 +20,15 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(stringr)
-source("./AI_R/timeseries_client.R")
+source("./utils/timeseries_client.R")
+
+#get the API username and password from your environment file
+readRenviron(paste0(getwd(), "./.Renviron"))
+username <- Sys.getenv("api_username")
+password <- Sys.getenv("api_password")
+
+#url end point for AQTS
+url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
 
 ## Download the Current Year Snow Data
 SW <- read.csv("http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/SW.csv", stringsAsFactors = F)
@@ -54,7 +64,7 @@ CurrentYrSnowData$DATE.UTC. <- as.POSIXct(CurrentYrSnowData$DATE.UTC.,
                                           format = "%Y-%m-%d %H:%M")
 #CurrentYrSnowData$DATE.UTC. <- as.POSIXct(CurrentYrSnowData$DATE.UTC.)
 
-#Date fromat changed 28/09/2021 from "%Y-%m-%d %H:%M" and back 26-10-2021 something changed again 2022-03-14
+#Date format changed 28/09/2021 from "%Y-%m-%d %H:%M" and back 26-10-2021 something changed again 2022-03-14
 
 ## Get the Station Name and Station Number
 CurrentYrSnowData$StnNumber <- substring(unlist(lapply(strsplit(CurrentYrSnowData$name, "\\."), "[[", 1)),2)
@@ -81,9 +91,6 @@ StationsToReportOn <- unique(CurrentData$name)
 NoDataTextSize = 4
 
 ## Connect to the database to get station location meta-data
-password <- 'test'
-username <- 'test'
-url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
 timeseries$connect(url, username, password)
 
 ## Loop to generate a plot for each automated station
@@ -241,16 +248,16 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
  
  ## Set the logo file based on the responsibility
  logoFile = NA
- if (grepl("BC Gov.", responsibility)) {logoFile = "./ref_data/bcmark_pos.png"}
- if (grepl("BC Hydro", responsibility, ignore.case = T)) {logoFile = "./ref_data/BC_Hydro_Logo.jpg"}
- if (grepl("Metro Vancouver", responsibility, ignore.case = T)) {logoFile = "./ref_data/MV_Logo.png"}
- if (is.na(logoFile)) {logoFile = "./ref_data/bcmark_pos.png"}
+ if (grepl("BC Gov.", responsibility)) {logoFile = "./utils/logos/bcmark_pos.png"}
+ if (grepl("BC Hydro", responsibility, ignore.case = T)) {logoFile = "./utils/logos/BC_Hydro_Logo.jpg"}
+ if (grepl("Metro Vancouver", responsibility, ignore.case = T)) {logoFile = "./utils/logos/MV_Logo.png"}
+ if (is.na(logoFile)) {logoFile = "./utils/logos/bcmark_pos.png"}
  
  ## Add the BC Gov logo
   finalPlot <- ggdraw(finalPlot) + draw_image(logoFile, scale = 0.15, x = 0.4, y = 0.44)
  
  ## Save the final output
- ggsave2(paste0("./graphs/weeklyReport", unique(OneStationData$StnNumber), ".pdf"), 
+ ggsave2(paste0("./asws_weekly_plots/graphs/weeklyReport", unique(OneStationData$StnNumber), ".pdf"), 
          finalPlot, width = 11, height = 8.5, units = "in", 
          title = paste0("7 Day Snow Report for ", unique(OneStationData$StnNumber)))
  
@@ -258,7 +265,7 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
 
 timeseries$disconnect()
 
-source("upload_weekly_snow_plots.R")
+source("./utils/upload_plots.R")
 upload_weely_snow_plots()
 
 
