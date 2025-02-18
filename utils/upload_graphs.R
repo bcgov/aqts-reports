@@ -30,11 +30,12 @@ upload_graphs <- function(url, username, password, path_to_graphs, type) {
       stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
     }
     
-    #fix this section!
+    #for uploading mss plots
     if (type == "mss") {
       
-      if (nchar(filePath) == 24) { stnNumber <- substr(filePath, 17, 20) }
-      if (nchar(filePath) == 25) { stnNumber <- substr(filePath, 17, 21) }
+      stnNumber <- substring(filesToUpload[i], 1)
+      stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
+      
     }
     
     #upload the report to the database
