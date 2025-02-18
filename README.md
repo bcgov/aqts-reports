@@ -1,5 +1,7 @@
 # snow-plots
-Code for the production of weekly and monthly snow station plots that are posted to real-time water data tool.
+Code for the production of [weekly](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Snow.4B18P.Weekly%20Report/) and [monthly](https://bcmoe-prod.aquaticinformatics.net/Report/Show/SnowMSS.1C31.MSS%20Report/) snow station plots that are posted to real-time water data tool and linked to from the [BC Snow Station Interactive map](https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=c15768bf73494f5da04b1aac6793bd2e)
+
+Data used is publicly available in the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/).
 
 ## Getting Help or Reporting an Issue
 
