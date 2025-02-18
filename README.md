@@ -5,8 +5,11 @@ Data is derived directly from the database via an API link and via the public da
 
 ## Example reports
   [7-Day Weekly ASWS Report](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Snow.4B18P.Weekly%20Report/)
+  
   [Monthly MSS Report](https://bcmoe-prod.aquaticinformatics.net/Report/Show/SnowMSS.1C31.MSS%20Report/)
+  
   [Ground Water Levels](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Groundwater.OW118.GWGraphAllData/)
+  
 
 ## Getting Help or Reporting an Issue
 
