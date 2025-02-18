@@ -28,6 +28,9 @@ upload_graphs <- function(url, username, password, path_to_graphs, type) {
       #extract the station number from the file path
       stnNumber <- substring(filesToUpload[i], 13)
       stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
+      
+      #upload the report to the database
+      timeseries$uploadExternalReport(stnNumber, filePath, paste0("Snow.", stnNumber, ".Weekly Report"), TRUE)
     }
     
     #for uploading mss plots
@@ -36,10 +39,11 @@ upload_graphs <- function(url, username, password, path_to_graphs, type) {
       stnNumber <- substring(filesToUpload[i], 1)
       stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
       
+      #upload the report to the database
+      timeseries$uploadExternalReport(stnNumber, filePath, paste0("Snow.", stnNumber, ".MSS Report"), TRUE)
+      
     }
     
-    #upload the report to the database
-    timeseries$uploadExternalReport(stnNumber, filePath, paste0("Snow.", stnNumber, ".Weekly Report"), TRUE)
   }
   
   #end session to database
