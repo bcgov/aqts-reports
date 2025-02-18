@@ -158,7 +158,7 @@ timeseries$disconnect()
 
 #Upload the completed graphs to AQTS
 source("./utils/upload_graphs.R")
-upload_graphs(url, username, password, "./asws_weekly_plots/graphs/", "mss")
+upload_graphs(url, username, password, "./mss_monthly_plots/graphs/", "mss")
 
 
 
