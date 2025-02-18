@@ -1,7 +1,12 @@
-# snow-plots
-Code for the production of [weekly](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Snow.4B18P.Weekly%20Report/) and [monthly](https://bcmoe-prod.aquaticinformatics.net/Report/Show/SnowMSS.1C31.MSS%20Report/) snow station plots that are posted to real-time water data tool and linked to from the [BC Snow Station Interactive map](https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=c15768bf73494f5da04b1aac6793bd2e)
+# AQTS Reports
+This repo contains code used to generate automated reports for snow and groundwater that are posted to the [BC real-time reporting tool](https://www2.gov.bc.ca/gov/content?id=39A675506AE54C4CB240849338B7C8D8). 
 
-Data used is publicly available in the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/).
+Data is derived directly from the database via an API link and via the public data distribution tools including the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/) and the [data_searches](https://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/) web page. 
+
+## Example reports
+  [7-Day Weekly ASWS Report](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Snow.4B18P.Weekly%20Report/)
+  [Monthly MSS Report](https://bcmoe-prod.aquaticinformatics.net/Report/Show/SnowMSS.1C31.MSS%20Report/)
+  [Ground Water Levels](https://bcmoe-prod.aquaticinformatics.net/Report/Show/Groundwater.OW118.GWGraphAllData/)
 
 ## Getting Help or Reporting an Issue
 
