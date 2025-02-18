@@ -265,8 +265,9 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
 
 timeseries$disconnect()
 
-source("./utils/upload_plots.R")
-upload_weely_snow_plots()
+#Upload the completed graphs to AQTS
+source("./utils/upload_graphs.R")
+upload_graphs(url, username, password, "./asws_weekly_plots/graphs/", "asws")
 
 
 
