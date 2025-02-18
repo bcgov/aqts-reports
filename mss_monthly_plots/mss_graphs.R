@@ -149,7 +149,8 @@ Plot Generated: ", Sys.Date())) +
       cowplot::draw_image(logoFile, x=0.97, y=0.98, hjust = 1, vjust = 1, halign = 1, valign = 1, scale = 0.2)
     
     
-    cowplot::ggsave2(paste0("./mss_monthly_plots/graphs/", unique(one_stn_data$Number), ".pdf"), p4, scale = 1, width=20, height=15, units="cm", dpi = 150, title = "MSS Snow Report")
+    cowplot::ggsave2(paste0("./mss_monthly_plots/graphs/", unique(one_stn_data$Number), ".pdf"), 
+                     p4, scale = 1, width=20, height=15, units="cm", dpi = 150, title = "MSS Snow Report")
   }
     
 }
