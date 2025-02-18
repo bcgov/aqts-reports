@@ -18,6 +18,9 @@ upload_weely_snow_plots <- function() {
   username <- 'test'
   #username <- "test"
   
+  usernm <- Sys.getenv("api_username")
+  passwd <- Sys.getenv("api_password")
+  
   #url <- 'https://bcmoe-test.aquaticinformatics.net/AQUARIUS'
   url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
   
