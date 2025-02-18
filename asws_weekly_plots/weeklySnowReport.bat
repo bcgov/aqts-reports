@@ -1,0 +1,1 @@
+"C:\Program Files\R\R-4.2.3\bin\R.exe" CMD BATCH C:\AQUARIUS\WeeklySnowReports\weeklySnowReport.R
