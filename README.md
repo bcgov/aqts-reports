@@ -1,4 +1,22 @@
+<!--
+Copyright 2018 Province of British Columbia
+&#10;Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+&#10;https://www.apache.org/licenses/LICENSE-2.0
+&#10;Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, 
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+-->
+
 # AQTS Reports
+<!-- badges: start -->
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/license/apache-2-0)
+<!--[![R-CMD-check](https://github.com/bcgov/bcdata/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bcgov/bcdata/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/bcgov/bcdata/branch/main/graph/badge.svg)](https://app.codecov.io/gh/bcgov/bcdata?branch=main)-->
+<!-- badges: end -->
 This repo contains code used to generate automated reports for snow and groundwater that are posted to the [BC real-time reporting tool](https://www2.gov.bc.ca/gov/content?id=39A675506AE54C4CB240849338B7C8D8). 
 
 Data is derived directly from the database via an API link and via the public data distribution tools including the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/) and the [data_searches](https://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/) web page. 
