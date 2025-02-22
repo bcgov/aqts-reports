@@ -4,6 +4,8 @@
 #By: Jeremy Krogh Feb 18, 2025
 ###############################################################################
 
+library(stringr)
+
 upload_graphs <- function(url, username, password, path_to_graphs, type) {
   
   #load the function for connecting to AQTS
