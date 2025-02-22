@@ -4,10 +4,8 @@
 #all MSS sites.
 #
 #BY: Jeremy Krogh Update: March 14 2022
+#Updated Feb 21 2025
 ###############################################################################
-
-#Set wroking directory 
-#setwd("C:/AQUARIUS/MSSGraphAllData")
 
 #Load libraries
 library(cowplot)
@@ -16,6 +14,9 @@ library(knitr)
 library(readr)
 library(ggplot2)
 library(lubridate)
+
+#a copy of this function can be downloaded here
+#https://github.com/AquaticInformatics/examples/blob/fa417675042ea1f1d08358f2c42244e7c4baac23/TimeSeries/PublicApis/R/timeseries_client.R
 source("./utils/timeseries_client.R")
 
 #get the API username and password from your environment file
@@ -51,8 +52,11 @@ timeseries$connect(url, username, password)
 #make month labels
 all_mss$month <- month(as.Date(all_mss$Survey.Period, format = "%d-%b"), label = TRUE)
 
-#get a list of all the mss id numbers
-mss_id <- unique(all_mss$Number)
+#get a list of all the mss id numbers, use this to make a plot for ALL mss
+#mss_id <- unique(all_mss$Number)
+
+#get a list of the active mss sites, use this to make plots only for active stations
+mss_id <- unique(all_mss$Number[all_mss$cur_yr == "Y"])
 
 #loop through each id
 for (i in c(1:length(mss_id))) {
