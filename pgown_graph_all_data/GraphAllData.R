@@ -42,6 +42,9 @@ ListOfWells <- ListOfWells[c(1,seq(3,length(ListOfWells)))]
 ## Loop through all of the wells making a graph for each one
 for (i in seq(1,length(ListOfWells))){
   
+  #print update
+  print(paste0("Graph for well: ", ListOfWells[i]))
+  
   ## Select data for the i-th well
   sub_obswells <- obswells %>% filter(myLocation == ListOfWells[i])
   
@@ -74,7 +77,7 @@ for (i in seq(1,length(ListOfWells))){
     draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
   
   ## Save the graph as a pdf
-  ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
+  ggsave2(paste0("./pgown_graph_all_data/graphs/", ListOfWells[i], ".pdf"),
          width = 10, height = 5, units = "in")
   
   ## If the length of the data record is less than 3 years, let ggplot make it's own x-ticks
@@ -101,7 +104,7 @@ for (i in seq(1,length(ListOfWells))){
       draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
     
     ## Save the graph as a pdf
-    ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
+    ggsave2(paste0("./pgown_graph_all_data/graphs/", ListOfWells[i], ".pdf"),
             width = 10, height = 5, units = "in", title = "Graph All Data")
   
     ## Finally, if the record length is greater than 3 years but less than 30 years. Let ggplot
@@ -128,7 +131,7 @@ for (i in seq(1,length(ListOfWells))){
       draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
     
     ## Save the plot
-    ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
+    ggsave2(paste0("./pgown_graph_all_data/graphs/", ListOfWells[i], ".pdf"),
             width = 10, height = 5, units = "in", title = "Graph All Data")
     
   }
@@ -136,5 +139,12 @@ for (i in seq(1,length(ListOfWells))){
 }
 
 ## Load and call the function that uploads all the plots to the NG web server
-source("upload_graph_all_data_plots.R")
-upload_graph_all_data_plots()
+source("./utils/upload_graphs.R")
+
+readRenviron(paste0(getwd(), "./.Renviron"))
+username <- Sys.getenv("api_username")
+password <- Sys.getenv("api_password")
+
+url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
+
+upload_graphs(url, username, password, "./pgown_graph_all_data/graphs/", "groundwater")
