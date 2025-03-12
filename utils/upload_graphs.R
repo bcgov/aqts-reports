@@ -46,7 +46,7 @@ upload_graphs <- function(url, username, password, path_to_graphs, type) {
       
     }
     
-    ## add pgown upload here
+    #for uploading pgown graph all data reports
     if (type == "groundwater") {
       
       stnNumber <- substring(filesToUpload[i], 1)
