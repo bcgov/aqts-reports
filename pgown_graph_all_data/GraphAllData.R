@@ -39,6 +39,45 @@ ListOfWells <- unique(obswells$myLocation)
 ## Get just the obs well numbers
 ListOfWells <- ListOfWells[c(1,seq(3,length(ListOfWells)))]
 
+### USE THIS FOR INACTIVE WELLS OFF BY DEFAULT ###
+if (FALSE) {
+  
+  ## Get list of inactive wells (as of Jan 6 2021)
+  inactive_Wells <- read.csv("inactiveObsWells.csv", stringsAsFactors = FALSE) 
+  
+  ## Download data for each inactive well
+  ## Make an empty data frame to contain the data for all inactive wells
+  inactive_wells_data <- data.frame("QualifiedTime" = as.POSIXct(character()), 
+                                    "Value" = numeric(), 
+                                    "myLocation" = character())
+  
+  #loop through each well and get its data one well file at a time
+  for (j in seq(1, nrow(inactive_Wells))) {
+    print(paste0("Downloading File for: ", inactive_Wells[j,]))
+    
+    download_url <- paste0("http://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/", 
+                           inactive_Wells[j,], "-average.csv")
+    
+    tempWellfile <- tryCatch({tempWellfile <- read.csv(download_url)}, error = function(e) {})
+    
+    ## Print error for files not found
+    tryCatch({tempWellfile <- read.csv(download_url)}, 
+             error = function(e) {print(paste0("No File For: ", inactive_Wells[j,]))
+             }
+    )
+    
+    inactive_wells_data <- rbind(inactive_wells_data, tempWellfile)
+    rm(tempWellfile)
+    
+  }
+  
+  inactive_wells_data$QualifiedTime <- as.Date(inactive_wells_data$QualifiedTime)
+  
+  ## rename
+  obswells <- inactive_wells_data
+} #end inactive wells section
+
+
 ## Loop through all of the wells making a graph for each one
 for (i in seq(1,length(ListOfWells))){
   
