@@ -1,10 +1,11 @@
 ###############################################################################
 #DESCRIPTION: This code generates the "graph all data" ground water plots. Data
-#is downloaded from the bc data catalouge, plots are made, and the final figures
+#is downloaded from the bc data catalogue, plots are made, and the final figures
 #are saved in /graphs folder.
 #
 #By: Jeremy Krogh Nov 26, 2020
-###############################################################################
+#Updated March 2025
+##############################################################################
 
 #packages to install - only need to do this once
 # install.packages("bcdata")
@@ -28,7 +29,9 @@ library(magick)
 
 
 ## Download the obs well data record from the bc data catalouge
-obswells <- bcdc_get_data('57c55f10-cf8e-40bb-aae0-2eff311f1685', resource = 'caa18e44-c1a3-490f-a467-f2352bd8d382', col_types = c("Ddc"))
+obswells <- bcdc_get_data('57c55f10-cf8e-40bb-aae0-2eff311f1685', 
+                          resource = 'caa18e44-c1a3-490f-a467-f2352bd8d382', 
+                          col_types = c("Ddc"))
 
 ## Check the unique levels of myLocation
 ListOfWells <- unique(obswells$myLocation)
@@ -68,7 +71,7 @@ for (i in seq(1,length(ListOfWells))){
     
   ## Use cowplot to add the BC Gov Mark to the bottom right corner of the plot
   p<-ggdraw(p) + 
-    draw_image("bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
+    draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
   
   ## Save the graph as a pdf
   ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
@@ -95,7 +98,7 @@ for (i in seq(1,length(ListOfWells))){
     
     ## Use Cowplot to add the BC Government mark to the lower right corner
     p<-ggdraw(p) + 
-      draw_image("bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
+      draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
     
     ## Save the graph as a pdf
     ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
@@ -122,7 +125,7 @@ for (i in seq(1,length(ListOfWells))){
     
     ## Add the BC Gov mark to the lower right corner
     p<-ggdraw(p) + 
-      draw_image("bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
+      draw_image("./utils/logos/bcmark_pos.png", x = 0.97, y = 0.18, hjust = 1, vjust = 1, width = 0.12, height = 0.2)
     
     ## Save the plot
     ggsave2(paste0("./graphs/Groundwater.", ListOfWells[i], ".GWGraphAllData.pdf"),
