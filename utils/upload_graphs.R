@@ -42,10 +42,20 @@ upload_graphs <- function(url, username, password, path_to_graphs, type) {
       stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
       
       #upload the report to the database
-      timeseries$uploadExternalReport(stnNumber, filePath, paste0("Snow.", stnNumber, ".MSS Report"), TRUE)
+      timeseries$uploadExternalReport(stnNumber, filePath, paste0("SnowMSS.", stnNumber, ".MSS Report"), TRUE)
       
     }
     
+    ## add pgown upload here
+    if (type == "groundwater") {
+      
+      stnNumber <- substring(filesToUpload[i], 1)
+      stnNumber <- unlist(str_split(stnNumber, "\\.")[[1]][1])
+      
+      #upload the report to the database
+      timeseries$uploadExternalReport(stnNumber, filePath, paste0("Groundwater.", stnNumber, ".GWGraphAllData"), TRUE)
+      
+    }
   }
   
   #end session to database
