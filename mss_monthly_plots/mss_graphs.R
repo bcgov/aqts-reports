@@ -3,7 +3,7 @@
 #meta data from the web portal (via API) and produce box and whisker plots for 
 #all MSS sites.
 #
-#BY: Jeremy Krogh Update: March 14 2022
+#BY: Jeremy K Update: March 14 2022
 #Updated Feb 21 2025
 ###############################################################################
 

@@ -1,7 +1,7 @@
 ###############################################################################
 #DESCRIPTION: This function uploads graphs from the asws and mss networks
 #
-#By: Jeremy Krogh Feb 18, 2025
+#By: Jeremy K Feb 18, 2025
 ###############################################################################
 
 library(stringr)

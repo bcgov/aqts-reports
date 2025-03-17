@@ -3,7 +3,7 @@
 #is downloaded from the bc data catalogue, plots are made, and the final figures
 #are saved in /graphs folder.
 #
-#By: Jeremy Krogh Nov 26, 2020
+#By: Jeremy K Nov 26, 2020
 #Updated March 2025
 ##############################################################################
 

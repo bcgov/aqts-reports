@@ -2,7 +2,7 @@
 #DESCCRIPTION: This script takes data from the data catalouge and produces a 
 #one page report with four plots for the last seven days. 
 #
-#BY: Jeremy Krogh Jan 18, 2021 
+#BY: Jeremy K Jan 18, 2021 
 
 #updated: Mar 14, 2022
 #update: Nov 20, 2023 to add Crocker Creek error catch
