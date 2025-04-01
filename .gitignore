@@ -4,3 +4,4 @@ utils/timeseries_client.R
 *.bat
 *.pdf
 *.pdf
+/mss_monthly_plots/graphs
