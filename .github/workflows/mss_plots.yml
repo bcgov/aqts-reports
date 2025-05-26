@@ -20,7 +20,7 @@ jobs:
       - name: Cache R packages #cache packages to make future runs faster
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: cowplot, dplyr, httr, jsonlite, tidyverse, knitr, lubridate, ggplot2, readr, stringr
+          packages: cowplot, dplyr, httr, jsonlite, tidyverse, lubridate, ggplot2
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
