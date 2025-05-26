@@ -14,18 +14,34 @@ library(knitr)
 library(readr)
 library(ggplot2)
 library(lubridate)
+library(jsonlite)
+library(httr)
 
 #a copy of this function can be downloaded here
 #https://github.com/AquaticInformatics/examples/blob/fa417675042ea1f1d08358f2c42244e7c4baac23/TimeSeries/PublicApis/R/timeseries_client.R
-source("./utils/timeseries_client.R")
+#source("./utils/timeseries_client.R")
 
 #get the API username and password from your environment file
-readRenviron(paste0(getwd(), "./.Renviron"))
-username <- Sys.getenv("api_username")
-password <- Sys.getenv("api_password")
+#readRenviron(paste0(getwd(), "./.Renviron"))
+username <- Sys.getenv("API_USERNAME")
+password <- Sys.getenv("API_PASSWORD")
 
-#url end point for AQTS
-url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
+base_url = 'https://bcmoe-prod.aquaticinformatics.net' 
+session_url <- paste0(base_url, '/AQUARIUS/Publish/v2/session')
+credentials <- list(Username = username, EncryptedPassword = password)
+session <- POST(session_url, body = credentials, encode='json')
+
+get_locationData <- function(mss_id) {
+
+response <- GET(paste0(base_url, "/AQUARIUS/Publish/v2/GetLocationData?LocationIdentifier=", mss_id), 
+    body = list(), 
+    encode='json')
+
+locationData <- fromJSON(rawToChar(response$content))
+
+return(locationData )
+
+}
 
 ## download the historic mss data
 hist_mss <- read.csv('http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/allmss_archive.csv', stringsAsFactors = FALSE)
@@ -46,9 +62,6 @@ if (nrow(cur_yr) > 0) {
 #bind the two datasets into one that contains all mss data
 all_mss <- rbind(hist_mss, cur_yr)
 
-## Connect to the database to get station location meta-data
-timeseries$connect(url, username, password)
-
 #make month labels
 all_mss$month <- month(as.Date(all_mss$Survey.Period, format = "%d-%b"), label = TRUE)
 
@@ -63,9 +76,16 @@ for (i in c(1:length(mss_id))) {
   print(paste0("Making Plot For: ", mss_id[i]))
   
   ## Extract location meta data from database
-  locationData <- timeseries$getLocationData(mss_id[i])
-  responsibility = locationData$ExtendedAttributes$Value[locationData$ExtendedAttributes$Name == "RESPONSIBILITY_SNOW"]
-  status <- if("Inactive" %in% locationData$Tags$Name){"Inactive"} else {"Active"}
+  #locationData <- timeseries$getLocationData(mss_id[i])
+  locationData <- get_locationData(mss_id[i])
+  
+  responsibility = locationData$ExtendedAttributes %>%
+    filter(Name == "RESPONSIBILITY_SNOW") %>% select(Value) %>% as.character()
+  
+  #locationData$ExtendedAttributes$Value[locationData$ExtendedAttributes$Name == "RESPONSIBILITY_SNOW"]
+  
+  status <- if("Inactive" %in% locationData$Tags$Key){"Inactive"} else {"Active"}
+  
   location <- paste0(round(locationData$Latitude, 2), "N ", 
                      round(-locationData$Longitude, 2), "W ",
                      locationData$Elevation, "m")
@@ -159,7 +179,8 @@ Plot Generated: ", Sys.Date())) +
     
 }
 
-timeseries$disconnect()
+#timeseries$disconnect()
+DELETE(session_url)
 
 #Upload the completed graphs to AQTS
 source("./utils/upload_graphs.R")
