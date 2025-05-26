@@ -1,9 +1,9 @@
-name: Update CoC json files
+name: run monthly mss plots
 
 on:
-  schedule:
-    - cron: '51 11 * * *'  # Runs at 11:51 UTC every day - 3:51am Pacific
-  #workflow_dispatch:
+  #schedule:
+  #  - cron: '51 11 * * *'  # Runs at 11:51 UTC every day - 3:51am Pacific
+  workflow_dispatch:
     
 jobs:
   run-r:
@@ -20,7 +20,7 @@ jobs:
       - name: Cache R packages #cache packages to make future runs faster
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: aws.s3, dplyr, httr, jsonlite, tidyverse, dplyr, lubridate, stringr, readr
+          packages: cowplot, dplyr, httr, jsonlite, tidyverse, knitr, lubridate, ggplot2, readr, stringr
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
@@ -29,4 +29,4 @@ jobs:
         env:
             API_PASSWORD: ${{ secrets.API_PASSWORD }}
             API_USERNAME: ${{ secrets.API_USERNAME }}   
-        run: Rscript utils/coc/CoC_json_update.R
+        run: Rscript mss_monthly_plots/mss_graphs.R
