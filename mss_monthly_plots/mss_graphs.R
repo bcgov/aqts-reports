@@ -11,16 +11,8 @@
 #Load libraries
 library(cowplot)
 library(dplyr)
-library(knitr)
-library(readr)
 library(ggplot2)
 library(lubridate)
-library(jsonlite)
-library(httr)
-
-#a copy of this function can be downloaded here
-#https://github.com/AquaticInformatics/examples/blob/fa417675042ea1f1d08358f2c42244e7c4baac23/TimeSeries/PublicApis/R/timeseries_client.R
-#source("./utils/timeseries_client.R")
 
 #get the API username and password from your environment file
 #readRenviron(paste0(getwd(), "./.Renviron"))
@@ -30,28 +22,6 @@ password <- Sys.getenv("API_PASSWORD")
 base_url = 'https://bcmoe-prod.aquaticinformatics.net'
 
 source("./utils/get_locationData.R")
-
-#get_locationData <- function(mss_id, base_url, username, password) {
-   
-  session_url <- paste0(base_url, '/AQUARIUS/Publish/v2/session')
-  credentials <- list(Username = username, EncryptedPassword = password)
-  
-  #start session
-  session <- POST(session_url, body = credentials, encode='json')
-  
-
-  response <- GET(paste0(base_url, "/AQUARIUS/Publish/v2/GetLocationData?LocationIdentifier=", mss_id), 
-    body = list(), 
-    encode='json')
-
-  locationData <- fromJSON(rawToChar(response$content))
-  
-  #end session
-  DELETE(session_url)
-  
-  return(locationData)
-
-}
 
 ## download the historic mss data
 hist_mss <- read.csv('http://www.env.gov.bc.ca/wsd/data_searches/snow/asws/data/allmss_archive.csv', stringsAsFactors = FALSE)
@@ -86,13 +56,10 @@ for (i in c(1:length(mss_id))) {
   print(paste0("Making Plot For: ", mss_id[i]))
   
   ## Extract location meta data from database
-  #locationData <- timeseries$getLocationData(mss_id[i])
-  locationData <- get_locationData(mss_id[i], base_url, username, password))
+  locationData <- get_locationData(mss_id[i], base_url, username, password)
   
   responsibility = locationData$ExtendedAttributes %>%
     filter(Name == "RESPONSIBILITY_SNOW") %>% select(Value) %>% as.character()
-  
-  #locationData$ExtendedAttributes$Value[locationData$ExtendedAttributes$Name == "RESPONSIBILITY_SNOW"]
   
   status <- if("Inactive" %in% locationData$Tags$Key){"Inactive"} else {"Active"}
   
@@ -188,9 +155,6 @@ Plot Generated: ", Sys.Date())) +
   }
     
 }
-
-#timeseries$disconnect()
-#DELETE(session_url)
 
 #Upload the completed graphs to AQTS
 source("./utils/upload_graphs.R")
