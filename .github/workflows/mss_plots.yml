@@ -1,4 +1,4 @@
-name: Update CoC json files
+name: run monthly mss plots
 
 on:
   #schedule:
