@@ -5,6 +5,7 @@
 #
 #BY: Jeremy K Update: March 14 2022
 #Updated Feb 21 2025
+#Updated May 26 2025
 ###############################################################################
 
 #Load libraries
@@ -26,20 +27,29 @@ library(httr)
 username <- Sys.getenv("API_USERNAME")
 password <- Sys.getenv("API_PASSWORD")
 
-base_url = 'https://bcmoe-prod.aquaticinformatics.net' 
-session_url <- paste0(base_url, '/AQUARIUS/Publish/v2/session')
-credentials <- list(Username = username, EncryptedPassword = password)
-session <- POST(session_url, body = credentials, encode='json')
+base_url = 'https://bcmoe-prod.aquaticinformatics.net'
 
-get_locationData <- function(mss_id) {
+source("./utils/get_locationData.R")
 
-response <- GET(paste0(base_url, "/AQUARIUS/Publish/v2/GetLocationData?LocationIdentifier=", mss_id), 
+#get_locationData <- function(mss_id, base_url, username, password) {
+   
+  session_url <- paste0(base_url, '/AQUARIUS/Publish/v2/session')
+  credentials <- list(Username = username, EncryptedPassword = password)
+  
+  #start session
+  session <- POST(session_url, body = credentials, encode='json')
+  
+
+  response <- GET(paste0(base_url, "/AQUARIUS/Publish/v2/GetLocationData?LocationIdentifier=", mss_id), 
     body = list(), 
     encode='json')
 
-locationData <- fromJSON(rawToChar(response$content))
-
-return(locationData )
+  locationData <- fromJSON(rawToChar(response$content))
+  
+  #end session
+  DELETE(session_url)
+  
+  return(locationData)
 
 }
 
@@ -77,7 +87,7 @@ for (i in c(1:length(mss_id))) {
   
   ## Extract location meta data from database
   #locationData <- timeseries$getLocationData(mss_id[i])
-  locationData <- get_locationData(mss_id[i])
+  locationData <- get_locationData(mss_id[i], base_url, username, password))
   
   responsibility = locationData$ExtendedAttributes %>%
     filter(Name == "RESPONSIBILITY_SNOW") %>% select(Value) %>% as.character()
@@ -180,7 +190,7 @@ Plot Generated: ", Sys.Date())) +
 }
 
 #timeseries$disconnect()
-DELETE(session_url)
+#DELETE(session_url)
 
 #Upload the completed graphs to AQTS
 source("./utils/upload_graphs.R")
