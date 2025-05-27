@@ -1,9 +1,9 @@
 name: Andrews Python Dashboard
 
 on:
-  schedule:
-    - cron: '51 11 * * *'  # Runs at 11:51 UTC every day - 3:51am Pacific
-  #workflow_dispatch: #use this to run on demand
+  #schedule:
+  #  - cron: '51 11 * * *'  # Runs at 11:51 UTC every day - 3:51am Pacific
+  workflow_dispatch: #use this to run on demand
 
 jobs:
   run-script:
