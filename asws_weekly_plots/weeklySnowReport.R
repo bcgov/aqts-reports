@@ -24,8 +24,8 @@ source("./utils/get_locationData.R")
 
 #get the API username and password from your environment file
 #readRenviron(paste0(getwd(), "./.Renviron"))
-username <- Sys.getenv("api_username")
-password <- Sys.getenv("api_password")
+username <- Sys.getenv("API_USERNAME")
+password <- Sys.getenv("API_PASSWORD")
 
 #url end point for AQTS
 url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
@@ -107,10 +107,7 @@ for (i in seq(1, length(StationsToReportOn))) {
   locationData <- get_locationData(unique(OneStationData$StnNumber), 
                                      'https://bcmoe-prod.aquaticinformatics.net', 
                                      username, password)
-  print(i)
-  print(unique(OneStationData$StnNumber))
-  print(is.atomic(locationData))
-  
+
   ## string for location lat long elev
   subtitlestr <- paste0(round(locationData$Latitude, 2), "N ", 
          round(locationData$Longitude, 2)*-1, "W ", 
