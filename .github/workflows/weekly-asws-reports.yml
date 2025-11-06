@@ -1,4 +1,4 @@
-name: run monthly mss plots
+name: run weekly asws plots
 
 on:
   #schedule:
