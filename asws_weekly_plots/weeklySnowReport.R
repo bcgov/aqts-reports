@@ -20,10 +20,10 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(stringr)
-source("./utils/timeseries_client.R")
+source("./utils/get_locationData.R")
 
 #get the API username and password from your environment file
-readRenviron(paste0(getwd(), "./.Renviron"))
+#readRenviron(paste0(getwd(), "./.Renviron"))
 username <- Sys.getenv("api_username")
 password <- Sys.getenv("api_password")
 
@@ -91,7 +91,7 @@ StationsToReportOn <- unique(CurrentData$name)
 NoDataTextSize = 4
 
 ## Connect to the database to get station location meta-data
-timeseries$connect(url, username, password)
+#timeseries$connect(url, username, password)
 
 ## Loop to generate a plot for each automated station
 for (i in seq(1, length(StationsToReportOn))) {
@@ -103,7 +103,10 @@ for (i in seq(1, length(StationsToReportOn))) {
   FullStnName <- paste0(unique(OneStationData$StnName), " (", unique(OneStationData$StnNumber), ")")
   
   ## Get location data from the database
-  locationData <- timeseries$getLocationData(unique(OneStationData$StnNumber))
+  #locationData <- timeseries$getLocationData(unique(OneStationData$StnNumber))
+  locationData <- get_locationData(unique(OneStationData$StnNumber), 
+                                     'https://bcmoe-prod.aquaticinformatics.net', 
+                                     username, password)
   
   ## string for location lat long elev
   subtitlestr <- paste0(round(locationData$Latitude, 2), "N ", 
@@ -112,7 +115,7 @@ for (i in seq(1, length(StationsToReportOn))) {
   
   ## Station responsibility
   responsibility = locationData$ExtendedAttributes$Value[locationData$ExtendedAttributes$Name == "RESPONSIBILITY_SNOW"]
-  if(is.na(responsibility)) {responsibility = "BC Gov."}
+  if(is.na(responsibility)) {responsibility = "BC ENV"}
   
   ## Print out the progress of the loop
   print(paste0("Printing Graph for: ", FullStnName))
@@ -228,10 +231,14 @@ if (nrow(onePar)) {
  
  ## Add disclaimer text to the bottom of the report
  plotDisclaimer <- ggdraw() + draw_label(
-   label = "Disclaimer: This report was made by an automated system and has not gone through quality control checks and may be subject to large errors, it is presented as is with 
+   label = paste0("Disclaimer: This report was made by an automated system and has not gone through quality control checks and may be subject to large errors, it is presented as is with 
 no guarantee of accuracy or completeness.
    
-Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at the site or has failed.",
+Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at the site or has failed.
+
+Plot Generated: ", Sys.Date()),
+                  
+                  
    fontface = 'italic',
    color = "grey50",
    size = 10,
@@ -248,7 +255,7 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
  
  ## Set the logo file based on the responsibility
  logoFile = NA
- if (grepl("BC Gov.", responsibility)) {logoFile = "./utils/logos/bcmark_pos.png"}
+ if (grepl("BC ENV", responsibility)) {logoFile = "./utils/logos/bcmark_pos.png"}
  if (grepl("BC Hydro", responsibility, ignore.case = T)) {logoFile = "./utils/logos/BC_Hydro_Logo.jpg"}
  if (grepl("Metro Vancouver", responsibility, ignore.case = T)) {logoFile = "./utils/logos/MV_Logo.png"}
  if (is.na(logoFile)) {logoFile = "./utils/logos/bcmark_pos.png"}
@@ -263,7 +270,7 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
  
 }
 
-timeseries$disconnect()
+#timeseries$disconnect()
 
 #Upload the completed graphs to AQTS
 source("./utils/upload_graphs.R")
