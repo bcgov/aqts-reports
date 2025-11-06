@@ -107,6 +107,9 @@ for (i in seq(1, length(StationsToReportOn))) {
   locationData <- get_locationData(unique(OneStationData$StnNumber), 
                                      'https://bcmoe-prod.aquaticinformatics.net', 
                                      username, password)
+  print(i)
+  print(unique(OneStationData$StnNumber))
+  print(is.atomic(locationData))
   
   ## string for location lat long elev
   subtitlestr <- paste0(round(locationData$Latitude, 2), "N ", 
@@ -231,13 +234,10 @@ if (nrow(onePar)) {
  
  ## Add disclaimer text to the bottom of the report
  plotDisclaimer <- ggdraw() + draw_label(
-   label = paste0("Disclaimer: This report was made by an automated system and has not gone through quality control checks and may be subject to large errors, it is presented as is with 
+   label = "Disclaimer: This report was made by an automated system and has not gone through quality control checks and may be subject to large errors, it is presented as is with 
 no guarantee of accuracy or completeness.
    
-Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at the site or has failed.
-
-Plot Generated: ", Sys.Date()),
-                  
+Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at the site or has failed.",
                   
    fontface = 'italic',
    color = "grey50",
