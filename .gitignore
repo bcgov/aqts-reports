@@ -3,3 +3,4 @@
 .Rhistory
 utils/timeseries_client.R
 *.bat
+*.pdf
