@@ -254,7 +254,7 @@ Not all sites have all sensors. 'NO DATA' indicates a sensor isn't installed at 
  logoFile = NA
  if (grepl("BC ENV", responsibility)) {logoFile = "./utils/logos/bcmark_pos.png"}
  if (grepl("BC Hydro", responsibility, ignore.case = T)) {logoFile = "./utils/logos/BC_Hydro_Logo.jpg"}
- if (grepl("Metro Vancouver", responsibility, ignore.case = T)) {logoFile = "./utils/logos/MV_Logo.png"}
+ if (grepl("Metro Vancouver", responsibility, ignore.case = T)) {logoFile = "./utils/logos/MV_logo.png"}
  if (is.na(logoFile)) {logoFile = "./utils/logos/bcmark_pos.png"}
  
  ## Add the BC Gov logo
