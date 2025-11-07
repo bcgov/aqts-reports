@@ -1,9 +1,9 @@
 name: run weekly asws plots
 
 on:
-  #schedule:
-  #  - cron: '22 10 * * *'  # Runs at 11:22 UTC every day - 2:22am Pacific
-  workflow_dispatch:
+  schedule:
+    - cron: '22 10 * * *'  # Runs at 11:22 UTC every day - 2:22am Pacific
+  #workflow_dispatch:
     
 jobs:
   run-r:
