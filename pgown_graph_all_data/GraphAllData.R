@@ -25,7 +25,7 @@ library(tidyr)
 library(scales)
 library(cowplot)
 library(lubridate)
-library(magick)
+#library(magick)
 
 
 ## Download the obs well data record from the bc data catalouge
