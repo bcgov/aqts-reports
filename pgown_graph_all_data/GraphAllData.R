@@ -106,7 +106,8 @@ for (i in seq(1,length(ListOfWells))){
          title = paste0("OBS WELL ", substr(unique(sub_obswells$myLocation), 3, 6)),
          subtitle = "Water Level Snapshot",
          caption = paste0("Note: True data are marked with a dot, the thin line connecting points is a visual aid only and does not represent true observations. \n",
-         "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool.")) +
+         "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool. \n",
+         "Plot Generated On: ", Sys.Date())) +
     theme_bw() +
     theme(plot.margin = margin(0.2, 0.2, 1.1, 0.2, unit = "cm"),
           plot.caption = element_text(hjust = 0, size = 7, face =  "italic", color = "grey50"))
@@ -133,7 +134,8 @@ for (i in seq(1,length(ListOfWells))){
            title = paste0("OBS WELL ", substr(unique(sub_obswells$myLocation), 3, 6)),
            subtitle = "Water Level Snapshot",
            caption = paste0("Note: True data are marked with a dot, the thin line connecting points is a visual aid only and does not represent true observations. \n",
-                            "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool."))  +
+                            "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool. \n",
+                            "Plot Generated On: ", Sys.Date()))  +
       theme_bw() +
       theme(plot.margin = margin(0.2, 0.2, 1.1, 0.2, unit = "cm"),
             plot.caption = element_text(hjust = 0, size = 7, face =  "italic", color = "grey50"))
@@ -160,7 +162,8 @@ for (i in seq(1,length(ListOfWells))){
            title = paste0("OBS WELL ", substr(unique(sub_obswells$myLocation), 3, 6)),
            subtitle = "Water Level Snapshot",
            caption = paste0("Note: True data are marked with a dot, the thin line connecting points is a visual aid only and does not represent true observations. \n",
-                            "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool.")) +
+                            "The full data set can be downloaded via the BC Data Catalogue or the BC Real-time Water Data tool. \n",
+                            "Plot Generated On: ", Sys.Date())) +
       theme_bw() +
       theme(plot.margin = margin(0.2, 0.2, 1.1, 0.2, unit = "cm"),
             plot.caption = element_text(hjust = 0, size = 7, face =  "italic", color = "grey50"))
@@ -180,10 +183,11 @@ for (i in seq(1,length(ListOfWells))){
 ## Load and call the function that uploads all the plots to the NG web server
 source("./utils/upload_graphs.R")
 
-readRenviron(paste0(getwd(), "./.Renviron"))
-username <- Sys.getenv("api_username")
-password <- Sys.getenv("api_password")
+#readRenviron(paste0(getwd(), "./.Renviron"))
+username <- Sys.getenv("API_USERNAME")
+password <- Sys.getenv("API_PASSWORD")
 
+#url end point for AQTS
 url <- 'https://bcmoe-prod.aquaticinformatics.net/AQUARIUS/'
 
 upload_graphs(url, username, password, "./pgown_graph_all_data/graphs/", "groundwater")
