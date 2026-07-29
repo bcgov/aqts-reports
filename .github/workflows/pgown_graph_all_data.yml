@@ -1,9 +1,9 @@
 name: run pgown graph all data
 
 on:
-  schedule:
-    - cron: '29 11 * * *'  # Runs at 11:22 UTC every day - 2:22am Pacific
-  #workflow_dispatch:
+  #schedule:
+  #  - cron: '29 11 * * *'  # Runs at 11:22 UTC every day - 2:22am Pacific
+  workflow_dispatch:
     
 jobs:
   run-r:
